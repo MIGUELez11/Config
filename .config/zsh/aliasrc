@@ -1,0 +1,2 @@
+alias ls="ls -p"
+alias gc="gcc -Wall -Wextra -Werror" 
