@@ -1,3 +1,11 @@
+#Commands
+
 alias ls="ls -p"
 alias gc="gcc -Wall -Wextra -Werror" 
 alias putanette="norminette -R CheckForbiddenSourceHeader"
+
+#Move Commands
+
+alias config="cd $HOME/.config; vim zsh/.zshrc"
+alias piscine="cd $HOME/Desktop/Projects42/CPiscine/"
+alias cursus="cd $HOME/Desktop/Projects42/Cursus/"
