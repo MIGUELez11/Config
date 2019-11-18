@@ -1,6 +1,7 @@
 cp -f .zshenv $HOME/
 cp -rf .config $HOME/
 cp -rf .config/zsh/.zshrc $HOME/
+cp -rf .config/vim/.vimrc $HOME/
 if [ -d "$HOME/.config/zsh/zsh-syntax-highlighting" ]; then
 	rm -rf $HOME/.config/zsh/zsh-syntax-highlighting
 fi
