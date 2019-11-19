@@ -9,8 +9,8 @@ if ! cat $HOME/.zshenv | grep -q "export VIMINIT='source \$HOME/.config/vim/.vim
 	echo "export VIMINIT='source \$HOME/.config/vim/.vimrc'" >> "$HOME/.zshenv"
 fi
 cp -rf .config $HOME/
-cp -rf .config/zsh/.zshrc $HOME/
-cp -rf .config/vim/.vimrc $HOME/
+cp -rf .config/zsh/.zshrc $HOME/.config/zsh
+cp -rf .config/vim/.vimrc $HOME/.config/vim
 if [ -d "$HOME/.config/zsh/zsh-syntax-highlighting" ]; then
 	rm -rf $HOME/.config/zsh/zsh-syntax-highlighting
 fi
