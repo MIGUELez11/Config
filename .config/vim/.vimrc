@@ -37,4 +37,6 @@ source ~/.config/vim/.vimconfig
 "Source user config
 if filereadable(expand("~/.vimrc"))
 	source ~/.vimrc
+if filereadable(expand("$HOME/.config/vim/stdheader.vim")
+	source $HOME/.config/vim/stdheader.vim
 endif
