@@ -9,7 +9,7 @@ function parse_git_branch() {
 	inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
 	if [ "$inside_git_repo" ]; then
 		ref="$(command git symbolic-ref --short HEAD 2> /dev/null)" || return
-    	echo "$ref";
+		echo "$(White)[$(Green)$ref$(White)]";
 	else
 		return
 	fi
@@ -45,7 +45,7 @@ PromptDirectory="$(Magenta)%c"
 PromptS="$(Blue)$"
 
 export PROMPT="$PromptUserHost $PromptDirectory $PromptS $PromptReset"
-export RPROMPT="%B[$(Green)$(parse_git_branch)$(White)]$PromptReset"
+export RPROMPT='%B$(parse_git_branch)$PromptReset'
 
 # History in cache directory:
 HISTSIZE=10000
