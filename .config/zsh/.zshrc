@@ -1,8 +1,51 @@
 #Enable colors and change prompt:
 autoload -U colors && colors
-#PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-#PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[magenta]%}@%{$fg[yellow]%}%m%{$fg[red]%}]%{$fg[magenta]%} %~%{$fg[blue]%} $%{$reset_color%}%b "
-PS1="%B%{$fg[red]%}[%{$fg[cyan]%}%n%{$fg[magenta]%}@%{$fg[yellow]%}%m%{$fg[red]%}] %{$fg[magenta]%}%c %{$fg[blue]%}$%{$reset_color%}%b "
+
+#Enable right prompt
+setopt prompt_subst
+
+#Checks if we are on a git repo and displays branch
+function parse_git_branch() {
+	inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+	if [ "$inside_git_repo" ]; then
+		ref="$(command git symbolic-ref --short HEAD 2> /dev/null)" || return
+    	echo "$ref";
+	else
+		return
+	fi
+}
+
+#Prompt variable definition
+function Red()
+{
+	echo "%{$fg[red]%}"
+}
+function Cyan() {
+	echo "%{$fg[cyan]%}"
+}
+function Magenta() {
+	echo "%{$fg[magenta]%}"
+}
+function Yellow() {
+	echo "%{$fg[yellow]%}"
+}
+function Blue() {
+	echo "%{$fg[blue]%}"
+}
+function Green() {
+	echo "%{$fg[green]%}"
+}
+function White() {
+	echo "%{$fg[white]%}"
+}
+
+PromptReset="%{$reset_color%}%b"
+PromptUserHost="%B$(Red)[$(Cyan)%n$(Magenta)@$(Yellow)%m$(Red)]"
+PromptDirectory="$(Magenta)%c"
+PromptS="$(Blue)$"
+
+export PROMPT="$PromptUserHost $PromptDirectory $PromptS $PromptReset"
+export RPROMPT="%B[$(Green)$(parse_git_branch)$(White)]$PromptReset"
 
 # History in cache directory:
 HISTSIZE=10000
