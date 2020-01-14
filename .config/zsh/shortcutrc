@@ -1,0 +1,3 @@
+alias config="cd $HOME/.config; clear; echo 'In config file '; pwd; vim zsh/.zshrc"
+alias piscine="cd $HOME/Desktop/Projects42/CPiscine/"
+alias cursus="cd $HOME/Desktop/Projects42/Cursus/"

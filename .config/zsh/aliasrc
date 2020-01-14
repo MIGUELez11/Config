@@ -4,8 +4,6 @@ alias ls="ls -p"
 alias gc="gcc -Wall -Wextra -Werror" 
 alias putanette="norminette -R CheckForbiddenSourceHeader"
 
-#Move Commands
+#Git
 
-alias config="cd $HOME/.config; clear; echo 'In config file '; pwd; vim zsh/.zshrc"
-alias piscine="cd $HOME/Desktop/Projects42/CPiscine/"
-alias cursus="cd $HOME/Desktop/Projects42/Cursus/"
+git config --global --add alias.lg log\ --color\ --graph\ --all\ --oneline\ --pretty=format:\"%C\(auto\)%h%d\ %s\ %Cgreen%cr\"
