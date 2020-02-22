@@ -5,6 +5,7 @@ alias gc="gcc -Wall -Wextra -Werror"
 alias putanette="norminette -R CheckForbiddenSourceHeader"
 
 #Git
+if ! -f $HOME/.gitconfig; then touch $HOME/.gitconfig
 if ! cat $HOME/.gitconfig | grep -q "lg ="; then
 	git config --global --add alias.lg log\ --color\ --graph\ --all\ --oneline\ --pretty=format:\"%C\(auto\)%h%d\ %s\ %Cgreen%cr\";
 fi
