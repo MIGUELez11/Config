@@ -47,11 +47,6 @@ PromptS="$(Blue)$"
 export PROMPT="$PromptUserHost $PromptDirectory $PromptS $PromptReset"
 export RPROMPT='%B$(parse_git_branch)$PromptReset'
 
-# History in cache directory:
-HISTSIZE=10000
-SAVEHIST=10000
-HISTFILE=~/.cache/zsh/history
-
 # Basic auto/tab complete:
 autoload -U compinit
 zstyle ':completion:*' menu select
