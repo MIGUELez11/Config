@@ -79,3 +79,7 @@ source "$HOME/.config/zsh/aliasrc"
 
 # Load zsh-syntax-highlighting; should be last.
 source "$HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+# Load nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
