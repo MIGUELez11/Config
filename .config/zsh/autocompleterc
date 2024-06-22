@@ -1,0 +1,9 @@
+source <(docker completion zsh)
+source <(helm completion zsh)
+source <(k9s completion zsh)
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+source ~/Desktop/projects/helpers/cli/aws/aws_profile_completion.sh
+source ~/Desktop/projects/helpers/cli/aws/aws_assume_role_completion.sh
+source ~/.config/zsh/zsh-yarn-completions/zsh-yarn-completions.plugin.zsh
+source <(kubectl completion zsh)
