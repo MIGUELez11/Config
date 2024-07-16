@@ -1,9 +1,31 @@
-source <(docker completion zsh)
-source <(helm completion zsh)
-source <(k9s completion zsh)
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
+if command -v docker >/dev/null 2>&1; then
+  source <(docker completion zsh)
+fi
 
-source ~/Desktop/projects/helpers/cli/aws/aws_profile_completion.sh
-source ~/Desktop/projects/helpers/cli/aws/aws_assume_role_completion.sh
-source ~/.config/zsh/zsh-yarn-completions/zsh-yarn-completions.plugin.zsh
-source <(kubectl completion zsh)
+if command -v helm >/dev/null 2>&1; then
+  source <(helm completion zsh)
+fi
+
+if command -v k9s >/dev/null 2>&1; then
+  source <(k9s completion zsh)
+fi
+
+if command -v terraform >/dev/null 2>&1; then
+  complete -o nospace -C /opt/homebrew/bin/terraform terraform
+fi
+
+if [ -f ~/.config/bin/aws_profile_completion.sh ]; then
+  source ~/.config/bin/aws_profile_completion.sh
+fi
+
+if [ -f ~/.config/bin/aws_assume_role_completion.sh ]; then
+  source ~/.config/bin/aws_assume_role_completion.sh
+fi
+
+if [ -f ~/.config/zsh/zsh-yarn-completions/zsh-yarn-completions.plugin.zsh ]; then
+  source ~/.config/zsh/zsh-yarn-completions/zsh-yarn-completions.plugin.zsh
+fi
+
+if command -v kubectl >/dev/null 2>&1; then
+  source <(kubectl completion zsh)
+fi
