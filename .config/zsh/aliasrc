@@ -3,12 +3,12 @@
 alias ls="ls -p"
 
 alias gc="gcc -Wall -Wextra -Werror"
-alias createGitTag="sh ~/Desktop/projects/helpers/createGitTag.sh"
+alias createGitTag="sh ~/.config/helpers/createGitTag.sh"
 alias k="kubectl"
 alias ctx="kubectx"
 alias ns="kubens"
-alias aws-profile="source ~/Desktop/projects/helpers/cli/aws/aws_profile.sh"
-alias aws-assume-role="source ~/Desktop/projects/helpers/cli/aws/aws_assume_role.sh"
+alias aws-profile="source ~/.config/bin/aws_profile.sh"
+alias aws-assume-role="source ~/.config/bin/aws_assume_role.sh"
 
 #Git
 if [ ! -f "$HOME/.gitconfig" ]; then

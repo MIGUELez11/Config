@@ -101,22 +101,4 @@ source "$HOME/.config/zsh/autocompleterc"
 # Load zsh-syntax-highlighting; should be last.
 source "$HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-# Load nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
-# Load homebrew
-PATH=$PATH:/opt/homebrew/bin
-
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-export GPG_TTY=$(tty)
-
-source ~/.config/aws/current_profile.sh
-eval $(thefuck --alias)
+source "$HOME/.config/zsh/envrc"
