@@ -1,4 +1,4 @@
-if command -v docker >/dev/null 2>&1; then
+if command -v docker >/dev/null 2>/dev/null && docker info >/dev/null 2>&1; then
   source <(docker completion zsh)
 fi
 
