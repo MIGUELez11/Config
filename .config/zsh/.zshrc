@@ -5,7 +5,7 @@ autoload -U colors && colors
 setopt prompt_subst
 
 function parse_aws_profile() {
-	is_terraform_dir="$(find . -name '*.tf' -maxdepth 1 | wc -l 2>/dev/null)"
+	is_terraform_dir="$(find -maxdepth 1. -name '*.tf' | wc -l 2>/dev/null)"
 	if [ $is_terraform_dir -gt 0 ] || [ $SHOW_AWS_PROFILE ] || [ ! -z "$AWS_ACCOUNT_ID" ]; then
 		if [ ! -z "$AWS_ACCOUNT_ID" ]; then
 			echo "$(White)[%F{208}$AWS_ACCOUNT_ID/$AWS_ROLE_NAME%f${white}]"
