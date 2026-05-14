@@ -1,0 +1,93 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+add_newline = false
+
+format = """
+(\n$cmd_duration$status\n\n)
+$aws\
+$bun\
+$nodejs\
+$package\
+$terraform
+$directory\
+$battery\
+$character\
+"""
+
+right_format = """
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$git_metrics\
+"""
+
+[character]
+success_symbol = "[\\$](bold blue)"
+error_symbol = "[\\$](bold blue)"
+vimcmd_symbol = "[](bold green)"
+
+[aws]
+format = "[$symbol($profile )(\\($region\\) )(\\[$duration\\]) ]($style)"
+symbol = "󰸏 "
+style = "#bf5700"
+disabled = false
+expiration_symbol="󱫔"
+
+[aws.region_aliases]
+eu-central-1 = ""
+
+[aws.profile_aliases]
+me-test = ""
+me-prod = "[R] me-prod"
+me-prod-rw = "[RW] me-prod"
+
+[[battery.display]]
+threshold = 15
+
+[bun]
+format = "[$symbol($version)]($style) "
+symbol = " "
+style = "bold yellow"
+disabled = false
+
+[nodejs]
+format = "[$symbol($version)]($style) "
+symbol = " "
+style = "bold green"
+disabled = false
+
+[cmd_duration]
+min_time = 1000
+show_milliseconds = true
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+symbol = " "
+style = "bold purple"
+
+[git_commit]
+format = "[$hash]($style) "
+style = "bold purple"
+
+[git_metrics]
+disabled = false
+only_nonzero_diffs = false
+
+[git_status]
+ahead = '⇡${count}'
+diverged = ' ⇡${ahead_count}⇣${behind_count}'
+behind = '⇣${count}'
+
+[terraform]
+disabled = false
+format = "[$symbol$version]($style) "
+symbol = "󱁢 "
+
+[directory]
+style = "bold purple"
+
+[status]
+format = '[$symbol$common_meaning$signal_name$maybe_int]($style) '
+map_symbol = true
+disabled = false
