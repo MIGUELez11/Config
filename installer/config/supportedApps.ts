@@ -9,9 +9,13 @@ const supportedApps: string[] = [
   "whatsapp",
 
   "iterm2",
+  "ghostty",
 
   "visual-studio-code",
   "cursor",
+  "t3-code",
+
+  "figma",
 
   "spotify",
 
