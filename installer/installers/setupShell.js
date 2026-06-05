@@ -33,26 +33,35 @@ async function step(message, indent, run) {
 }
 
 async function setDefaultShell(indent) {
-  const spinner = ora({ prefixText: "- [FISH] ", indent }).start(
-    "Setting fish as the default shell"
-  );
+  const prefix = `${" ".repeat(indent)}- [FISH] `;
 
   try {
     const { stdout: fishPath } = await execa("which", ["fish"]);
 
     // Register fish in /etc/shells (idempotent) so chsh accepts it.
     const { stdout: shells } = await execa("cat", ["/etc/shells"]);
-    if (!shells.split("\n").includes(fishPath)) {
-      await execa("sudo", ["sh", "-c", `echo '${fishPath}' >> /etc/shells`]);
+    const needsRegister = !shells.split("\n").includes(fishPath);
+
+    // sudo and chsh prompt for your password on the terminal. We don't run
+    // these behind an ora spinner: stdio is inherited so the prompts are
+    // visible and can read your input (otherwise it silently hangs).
+    console.log(
+      `${prefix}Setting fish as the default shell (may ask for your password)`
+    );
+
+    if (needsRegister) {
+      await execa("sudo", ["sh", "-c", `echo '${fishPath}' >> /etc/shells`], {
+        stdio: "inherit",
+      });
     }
 
-    await execa("chsh", ["-s", fishPath]);
-    spinner.succeed("fish set as the default shell");
+    await execa("chsh", ["-s", fishPath], { stdio: "inherit" });
+    console.log(`${prefix}fish set as the default shell`);
   } catch (error) {
     // Changing the login shell needs a password / interactive auth, which is
     // not always available during an automated run. Don't fail the install.
-    spinner.warn(
-      `Could not set fish as default shell automatically. Run: chsh -s (which fish)`
+    console.log(
+      `${prefix}Could not set fish as default shell automatically. Run: chsh -s (which fish)`
     );
   }
 }
