@@ -18,6 +18,10 @@ end
 set -gx EDITOR vim
 set -gx VISUAL vim
 
+# Node version manager default (jorgebucaran/nvm.fish, optional)
+# Inert unless nvm.fish is installed; the installer can add it on request.
+set -gx nvm_default_version lts
+
 # Enable vi mode: Esc enters normal mode
 fish_vi_key_bindings
 

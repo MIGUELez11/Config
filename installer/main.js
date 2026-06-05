@@ -5,6 +5,7 @@ import supportedApps from "./config/supportedApps.js";
 import supportedCLIs from "./config/supportedCLIs.js";
 import installApps from "./installers/installApps.js";
 import installCLIs from "./installers/installCLIs.js";
+import setupNvm from "./installers/setupNvm.js";
 import setupShell from "./installers/setupShell.js";
 import setupVim from "./installers/setupVim.js";
 
@@ -45,6 +46,11 @@ const questions = [
     when: (answers) => answers.installCLIs,
     default: Object.keys(supportedCLIs),
   },
+  {
+    type: "confirm",
+    name: "installNvm",
+    message: "Should we install nvm (Node version manager for fish)?",
+  },
 ];
 
 const answers = await inquirer.prompt(questions);
@@ -71,4 +77,9 @@ if (answers.installCLIsSelected?.length) {
   const spinner = ora("- Installing CLIs").start();
   await installCLIs(answers.installCLIsSelected);
   spinner.succeed("- CLIs installed");
+}
+
+if (answers.installNvm) {
+  console.log("- Installing nvm");
+  await setupNvm();
 }

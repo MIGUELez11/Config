@@ -2,12 +2,12 @@
 
 clear;
 
-source ./scripts/setupHomebrewAndNvm.sh
+source ./scripts/setupHomebrew.sh
 
-npm install -C ./installer
+bun install --cwd ./installer
 
 clear
-node ./installer/main.js
+bun ./installer/main.js
 
 echo "\033[1;32m"
 echo "┌──────────────────────────────────────┐"
