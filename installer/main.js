@@ -3,17 +3,16 @@ import ora from "ora";
 
 import supportedApps from "./config/supportedApps.js";
 import supportedCLIs from "./config/supportedCLIs.js";
-import supportedHelpers from "./config/supportedHelpers.js";
 import installApps from "./installers/installApps.js";
 import installCLIs from "./installers/installCLIs.js";
-import installHelpers from "./installers/installHelpers.js";
-import runScript from "./installers/runScript.js";
+import setupShell from "./installers/setupShell.js";
+import setupVim from "./installers/setupVim.js";
 
 const questions = [
   {
     type: "confirm",
-    name: "setupZsh",
-    message: "Should we setup zsh?",
+    name: "setupFish",
+    message: "Should we setup fish?",
   },
   {
     type: "confirm",
@@ -46,35 +45,20 @@ const questions = [
     when: (answers) => answers.installCLIs,
     default: Object.keys(supportedCLIs),
   },
-  {
-    type: "confirm",
-    name: "installHelpers",
-    message: "Should we install helpers?",
-  },
-  {
-    type: "checkbox",
-    name: "installHelpersSelected",
-    message: "Which helpers do you want to install?",
-    choices: Object.keys(supportedHelpers),
-    when: (answers) => answers.installHelpers,
-    default: Object.keys(supportedHelpers),
-  },
 ];
 
 const answers = await inquirer.prompt(questions);
 
 console.clear();
 
-if (answers.setupZsh) {
-  const spinner = ora("- Configuring zsh").start();
-  await runScript("../scripts/setupZsh.sh");
-  spinner.succeed("- Zsh configured");
+if (answers.setupFish) {
+  console.log("- Configuring fish");
+  await setupShell();
 }
 
 if (answers.setupVim) {
-  const spinner = ora("- Setting up vim").start();
-  await runScript("../scripts/setupVim.sh");
-  spinner.succeed("- Vim configured");
+  console.log("- Setting up vim");
+  await setupVim();
 }
 
 if (answers.installAppsSelected?.length) {
@@ -87,10 +71,4 @@ if (answers.installCLIsSelected?.length) {
   const spinner = ora("- Installing CLIs").start();
   await installCLIs(answers.installCLIsSelected);
   spinner.succeed("- CLIs installed");
-}
-
-if (answers.installHelpersSelected?.length) {
-  const spinner = ora("- Installing helpers").start();
-  await installHelpers(answers.installHelpersSelected);
-  spinner.succeed("- Helpers installed");
 }
