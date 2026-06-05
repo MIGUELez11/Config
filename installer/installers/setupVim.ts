@@ -1,32 +1,34 @@
-import { cp, mkdir } from "fs/promises";
-import os from "os";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
+import { cp, mkdir } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 
 import { execa } from "execa";
 import ora from "ora";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { errorMessage } from "../utils/errors.ts";
 
-const VIM_SRC = path.join(__dirname, "../../.config/vim");
+const VIM_SRC = path.join(import.meta.dir, "../../.config/vim");
 const VIM_DEST = path.join(os.homedir(), ".config/vim");
 
 const VIMINIT = "source $HOME/.config/vim/.vimrc";
 
-async function step(message, indent, run) {
+async function step(
+  message: string,
+  indent: number,
+  run: () => Promise<unknown>
+): Promise<boolean> {
   const spinner = ora({ prefixText: "- [VIM] ", indent }).start(message);
   try {
     await run();
     spinner.succeed(message);
     return true;
   } catch (error) {
-    spinner.fail(`${message} — ${error.shortMessage ?? error.message}`);
+    spinner.fail(`${message} — ${errorMessage(error)}`);
     return false;
   }
 }
 
-export default async function setupVim({ indent = 4 } = {}) {
+export default async function setupVim({ indent = 4 }: { indent?: number } = {}): Promise<void> {
   await mkdir(VIM_DEST, { recursive: true });
 
   // Copy the whole directory recursively. The previous shell version used

@@ -1,15 +1,13 @@
-import { cp, mkdir } from "fs/promises";
-import os from "os";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
+import { cp, mkdir } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 
 import { execa } from "execa";
 import ora from "ora";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { errorMessage } from "../utils/errors.ts";
 
-const REPO_ROOT = path.join(__dirname, "../..");
+const REPO_ROOT = path.join(import.meta.dir, "../..");
 const FISH_SRC = path.join(REPO_ROOT, ".config/fish");
 const STARSHIP_SRC = path.join(REPO_ROOT, ".config/starship.toml");
 
@@ -20,19 +18,23 @@ const STARSHIP_DEST = path.join(CONFIG_DIR, "starship.toml");
 // Tools the fish config depends on (see .config/fish/config.fish).
 const BREW_PACKAGES = ["fish", "starship", "zoxide"];
 
-async function step(message, indent, run) {
+async function step(
+  message: string,
+  indent: number,
+  run: () => Promise<unknown>
+): Promise<boolean> {
   const spinner = ora({ prefixText: "- [FISH] ", indent }).start(message);
   try {
     await run();
     spinner.succeed(message);
     return true;
   } catch (error) {
-    spinner.fail(`${message} — ${error.shortMessage ?? error.message}`);
+    spinner.fail(`${message} — ${errorMessage(error)}`);
     return false;
   }
 }
 
-async function setDefaultShell(indent) {
+async function setDefaultShell(indent: number): Promise<void> {
   const prefix = `${" ".repeat(indent)}- [FISH] `;
 
   try {
@@ -57,7 +59,7 @@ async function setDefaultShell(indent) {
 
     await execa("chsh", ["-s", fishPath], { stdio: "inherit" });
     console.log(`${prefix}fish set as the default shell`);
-  } catch (error) {
+  } catch {
     // Changing the login shell needs a password / interactive auth, which is
     // not always available during an automated run. Don't fail the install.
     console.log(
@@ -66,7 +68,7 @@ async function setDefaultShell(indent) {
   }
 }
 
-export default async function setupShell({ indent = 4 } = {}) {
+export default async function setupShell({ indent = 4 }: { indent?: number } = {}): Promise<void> {
   await mkdir(CONFIG_DIR, { recursive: true });
 
   await step(
