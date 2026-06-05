@@ -20,6 +20,10 @@ const supportedCLIs: Record<string, CliPackage> = {
     provider: "homebrew",
     name: "terraform",
   },
+  tldr: {
+    provider: "homebrew",
+    name: "tldr",
+  },
 };
 
 export default supportedCLIs;
