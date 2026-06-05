@@ -1,15 +1,26 @@
 import inquirer from "inquirer";
+import type { QuestionCollection } from "inquirer";
 import ora from "ora";
 
-import supportedApps from "./config/supportedApps.js";
-import supportedCLIs from "./config/supportedCLIs.js";
-import installApps from "./installers/installApps.js";
-import installCLIs from "./installers/installCLIs.js";
-import setupNvm from "./installers/setupNvm.js";
-import setupShell from "./installers/setupShell.js";
-import setupVim from "./installers/setupVim.js";
+import supportedApps from "./config/supportedApps.ts";
+import supportedCLIs from "./config/supportedCLIs.ts";
+import installApps from "./installers/installApps.ts";
+import installCLIs from "./installers/installCLIs.ts";
+import setupNvm from "./installers/setupNvm.ts";
+import setupShell from "./installers/setupShell.ts";
+import setupVim from "./installers/setupVim.ts";
 
-const questions = [
+interface Answers {
+  setupFish: boolean;
+  setupVim: boolean;
+  installApps: boolean;
+  installAppsSelected?: string[];
+  installCLIs: boolean;
+  installCLIsSelected?: string[];
+  installNvm: boolean;
+}
+
+const questions: QuestionCollection<Answers> = [
   {
     type: "confirm",
     name: "setupFish",
@@ -53,7 +64,7 @@ const questions = [
   },
 ];
 
-const answers = await inquirer.prompt(questions);
+const answers = await inquirer.prompt<Answers>(questions);
 
 console.clear();
 

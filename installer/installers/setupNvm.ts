@@ -1,5 +1,7 @@
-import { execa } from "execa";
+import { execa, type Options } from "execa";
 import ora from "ora";
+
+import { errorMessage } from "../utils/errors.ts";
 
 // Installs fisher (fish plugin manager) only if it isn't already present.
 const FISHER_BOOTSTRAP =
@@ -10,21 +12,25 @@ const FISHER_BOOTSTRAP =
 
 // fisher/git/curl take a slow (or infinite) path when stdin isn't a TTY.
 // Inheriting the terminal makes these behave exactly like a manual run.
-const EXECA_OPTS = { stdin: "inherit" };
+const EXECA_OPTS: Options = { stdin: "inherit" };
 
-async function step(message, indent, run) {
+async function step(
+  message: string,
+  indent: number,
+  run: () => Promise<unknown>
+): Promise<boolean> {
   const spinner = ora({ prefixText: "- [NVM] ", indent }).start(message);
   try {
     await run();
     spinner.succeed(message);
     return true;
   } catch (error) {
-    spinner.fail(`${message} — ${error.shortMessage ?? error.message}`);
+    spinner.fail(`${message} — ${errorMessage(error)}`);
     return false;
   }
 }
 
-export default async function setupNvm({ indent = 4 } = {}) {
+export default async function setupNvm({ indent = 4 }: { indent?: number } = {}): Promise<void> {
   await step("Installing fisher (fish plugin manager)", indent, () =>
     execa("fish", ["-c", FISHER_BOOTSTRAP], EXECA_OPTS)
   );
@@ -43,9 +49,7 @@ export default async function setupNvm({ indent = 4 } = {}) {
     console.log(`${" ".repeat(indent)}- [NVM] LTS Node installed`);
   } catch (error) {
     console.log(
-      `${" ".repeat(indent)}- [NVM] Could not install LTS Node — ${
-        error.shortMessage ?? error.message
-      }`
+      `${" ".repeat(indent)}- [NVM] Could not install LTS Node — ${errorMessage(error)}`
     );
   }
 }

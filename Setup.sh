@@ -7,7 +7,7 @@ source ./scripts/setupHomebrew.sh
 bun install --cwd ./installer
 
 clear
-bun ./installer/main.js
+bun ./installer/main.ts
 
 echo "\033[1;32m"
 echo "┌──────────────────────────────────────┐"

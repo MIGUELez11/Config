@@ -1,4 +1,9 @@
-const supportedCLIs = {
+export interface CliPackage {
+  provider: string;
+  name: string;
+}
+
+const supportedCLIs: Record<string, CliPackage> = {
   aws: {
     provider: "homebrew",
     name: "awscli",

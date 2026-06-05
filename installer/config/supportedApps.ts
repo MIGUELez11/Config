@@ -1,4 +1,4 @@
-const supportedApps = [
+const supportedApps: string[] = [
   "arc",
   "firefox",
   "google-chrome",
